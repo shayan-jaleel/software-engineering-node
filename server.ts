@@ -4,6 +4,8 @@ import UserDao from './daos/UserDao';
 const mongoose = require('mongoose'); // load the mongoose library
 
 import bodyParser from 'body-parser';
+import TuitController from './controllers/TuitController';
+import TuitDao from './daos/TuitDao';
 mongoose.connect('mongodb://localhost:27017/tuiter', {useNewUrlParser: true, useUnifiedTopology: true}); // connect to the tuiter database
 
 
@@ -11,6 +13,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const userController = new UserController(app, new UserDao());
+const tuitController = new TuitController(app, new TuitDao());
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
