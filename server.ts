@@ -1,4 +1,8 @@
 import express, {Request, Response} from 'express';
+// const mongoose = require('mongoose'); // load the mongoose library
+// mongoose.connect('mongodb://localhost:27017/tuiter'); // connect to the movie-db database
+
+
 const app = express();
 
 app.get('/hello', (req: Request, res: Response) =>
