@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 if(process.env.IS_HEROKU != "true") {
     mongoose.connect('mongodb://localhost:27017/tuiter', {useNewUrlParser: true, useUnifiedTopology: true});
     const userController = UserController.getInstance(app);
-    const tuitController = new TuitController(app, new TuitDao());
+    const tuitController = TuitController.getInstance(app);
 }
 
 app.get('/hello', (req: Request, res: Response) =>
