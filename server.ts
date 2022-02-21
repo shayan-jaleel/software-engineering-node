@@ -6,6 +6,7 @@ const mongoose = require('mongoose'); // load the mongoose library
 import bodyParser from 'body-parser';
 import TuitController from './controllers/TuitController';
 import TuitDao from './daos/TuitDao';
+import LikeController from './controllers/LikeController';
 
 
 
@@ -17,6 +18,7 @@ if(process.env.IS_HEROKU != "true") {
     mongoose.connect('mongodb://localhost:27017/tuiter', {useNewUrlParser: true, useUnifiedTopology: true});
     const userController = UserController.getInstance(app);
     const tuitController = TuitController.getInstance(app);
+    const likeController = LikeController.getInstance(app);
 }
 
 app.get('/hello', (req: Request, res: Response) =>
