@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/users/User";
 import UserModel from "../mongoose/UserModel";
 import UserDaoI from "../interfaces/UserDao";
 
