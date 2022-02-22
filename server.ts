@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import TuitController from './controllers/TuitController';
 import TuitDao from './daos/TuitDao';
 import LikeController from './controllers/LikeController';
+import MessageController from './controllers/MessageController';
 
 
 
@@ -19,6 +20,7 @@ if(process.env.IS_HEROKU != "true") {
     const userController = UserController.getInstance(app);
     const tuitController = TuitController.getInstance(app);
     const likeController = LikeController.getInstance(app);
+    const messageController = MessageController.getInstance(app);
 }
 
 app.get('/hello', (req: Request, res: Response) =>
