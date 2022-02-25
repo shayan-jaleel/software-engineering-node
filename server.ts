@@ -15,13 +15,11 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-if(process.env.IS_HEROKU != "true") {
-    mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
-    const userController = UserController.getInstance(app);
-    const tuitController = TuitController.getInstance(app);
-    const likeController = LikeController.getInstance(app);
-    const messageController = MessageController.getInstance(app);
-}
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+const userController = UserController.getInstance(app);
+const tuitController = TuitController.getInstance(app);
+const likeController = LikeController.getInstance(app);
+const messageController = MessageController.getInstance(app);
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
