@@ -2,6 +2,7 @@ import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
 import mongoose from "mongoose";
+import Tuit from "../tuits/Tuit";
 
 export default interface User {
     _id?: mongoose.Schema.Types.ObjectId,
@@ -17,5 +18,6 @@ export default interface User {
     accountType?: AccountType,
     maritalStatus?: MaritalStatus,
     location?: Location,
-    salary?: number
+    salary?: number,
+    bookmarks?: string[]
 };

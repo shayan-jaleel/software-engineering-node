@@ -6,4 +6,9 @@ export default interface UserControllerI {
    createUser(req: Request, res: Response): void;
    deleteUser(req: Request, res: Response): void;
    updateUser(req: Request, res: Response): void;
+   findBookmarksForUser(req: Request, res: Response): void;
+   createBookmarkForUser(req: Request, res: Response): void;
+   deleteBookmarkForUser(req: Request, res: Response): void;
+   deleteAllBookmarksForUser(req: Request, res: Response): void;
+   hasUserBookmarkedTuit(req: Request, res: Response): void;
 }

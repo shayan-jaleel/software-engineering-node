@@ -5,6 +5,7 @@
  import User from "../models/users/User";
  import {Express, Request, Response} from "express";
  import UserControllerI from "../interfaces/UserControllerI";
+import Tuit from "../models/tuits/Tuit";
  
  /**
   * @class UserController Implements RESTful Web service API for users resource.
@@ -44,6 +45,16 @@
                  UserController.userController.updateUser);
              app.delete("/api/users/:uid",
                  UserController.userController.deleteUser);
+            app.get("/api/users/:uid/bookmarks",
+                UserController.userController.findBookmarksForUser);
+            app.post("/api/users/:uid/bookmarks/:tid",
+                UserController.userController.createBookmarkForUser);
+            app.delete("/api/users/:uid/bookmarks/:tid",
+                UserController.userController.deleteBookmarkForUser);
+            app.delete("/api/users/:uid/bookmarks",
+                UserController.userController.deleteAllBookmarksForUser);
+            app.head("/api/users/:uid/bookmarks/:tid",
+                UserController.userController.hasUserBookmarkedTuit);
          }
          return UserController.userController;
      }
@@ -105,4 +116,25 @@
      deleteUser = (req: Request, res: Response) =>
          UserController.userDao.deleteUser(req.params.uid)
              .then((status) => res.send(status));
- };
+
+    findBookmarksForUser = (req: Request, res: Response) =>
+    UserController.userDao.findBookmarksForUser(req.params.uid)
+        .then((tuits : Tuit[]) => res.json(tuits));
+
+    createBookmarkForUser = (req: Request, res: Response) => {
+        UserController.userDao.createBookmarkForUser(req.params.uid, req.params.tid)
+        .then(status => res.send(status));
+    }
+    deleteBookmarkForUser = (req: Request, res: Response) => {
+        UserController.userDao.deleteBookmarkForUser(req.params.uid, req.params.tid)
+        .then(status => res.send(status));
+    }
+    deleteAllBookmarksForUser = (req: Request, res:Response) => {
+        UserController.userDao.deleteAllBookmarksForUser(req.params.uid)
+        .then(status => res.send(status));
+    }
+    hasUserBookmarkedTuit = (req: Request, res: Response) => {
+        UserController.userDao.hasUserBookmarkedTuit(req.params.uid, req.params.tid)
+        .then(hasBookmarked => hasBookmarked? res.sendStatus(200) : res.sendStatus(404))
+    }
+};

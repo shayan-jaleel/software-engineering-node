@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 const UserSchema = new mongoose.Schema({
   //  _id: String,
    username: {type: String, required: true},
@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
    location: {
      latitude: {type: Number, default: 0.0},
      longitude: {type: Number, default: 0.0},
+   },
+   bookmarks: {
+     type: Schema.Types.Array,
+     ref: 'TuitModel'
    }
 }, {collection: 'users'});
 export default UserSchema;
