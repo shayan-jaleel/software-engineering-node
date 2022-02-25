@@ -20,6 +20,14 @@ const UserSchema = new mongoose.Schema({
    bookmarks: {
      type: Schema.Types.Array,
      ref: 'TuitModel'
+   },
+   followers: {
+     type: Schema.Types.Array,
+     ref: 'UserModel'
+   },
+   followees: {
+     type: Schema.Types.Array,
+     ref: 'UserModel'
    }
 }, {collection: 'users'});
 export default UserSchema;

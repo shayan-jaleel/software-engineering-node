@@ -19,5 +19,7 @@ export default interface User {
     maritalStatus?: MaritalStatus,
     location?: Location,
     salary?: number,
-    bookmarks?: string[]
+    bookmarks?: string[],
+    followers: string[],
+    followees: string[]
 };

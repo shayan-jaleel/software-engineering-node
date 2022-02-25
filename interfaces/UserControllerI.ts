@@ -11,4 +11,10 @@ export default interface UserControllerI {
    deleteBookmarkForUser(req: Request, res: Response): void;
    deleteAllBookmarksForUser(req: Request, res: Response): void;
    hasUserBookmarkedTuit(req: Request, res: Response): void;
+   userFollowsAnotherUser(req: Request, res: Response): void;
+   userUnfollowsAnotherUser(req: Request, res: Response): void;
+   findAllFollowersForUser(req: Request, res: Response): void;
+   findAllFolloweesForUser(req: Request, res: Response): void;
+   doesUserFollowAnotherUser(req: Request, res: Response): void;
+   deleteAllFolloweesForUser(req: Request, res: Response): void;
 }

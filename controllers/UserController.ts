@@ -55,6 +55,18 @@ import Tuit from "../models/tuits/Tuit";
                 UserController.userController.deleteAllBookmarksForUser);
             app.head("/api/users/:uid/bookmarks/:tid",
                 UserController.userController.hasUserBookmarkedTuit);
+            app.post("/api/users/:followerId/followees/:followeeId",
+                UserController.userController.userFollowsAnotherUser);
+            app.delete("/api/users/:followerId/followees/:followeeId",
+                UserController.userController.userUnfollowsAnotherUser);
+            app.get("/api/users/:uid/followers",
+                UserController.userController.findAllFollowersForUser);
+            app.get("/api/users/:uid/followees",
+                UserController.userController.findAllFolloweesForUser);
+            app.head("/api/users/:followerId/followees/:followeeId",
+                UserController.userController.doesUserFollowAnotherUser);
+            app.delete("/api/users/:uid/followees",
+                UserController.userController.deleteAllFolloweesForUser);
          }
          return UserController.userController;
      }
@@ -135,6 +147,30 @@ import Tuit from "../models/tuits/Tuit";
     }
     hasUserBookmarkedTuit = (req: Request, res: Response) => {
         UserController.userDao.hasUserBookmarkedTuit(req.params.uid, req.params.tid)
-        .then(hasBookmarked => hasBookmarked? res.sendStatus(200) : res.sendStatus(404))
+        .then(hasBookmarked => hasBookmarked? res.sendStatus(200) : res.sendStatus(404));
+    }
+    userFollowsAnotherUser = (req: Request, res: Response) => {
+        UserController.userDao.userFollowsAnotherUser(req.params.followerId, req.params.followeeId)
+        .then(status => res.send(status)).catch(e => res.sendStatus(404).send(e));
+    }
+    userUnfollowsAnotherUser = (req: Request, res: Response) => {
+        UserController.userDao.userUnfollowsAnotherUser(req.params.followerId, req.params.followeeId)
+        .then(status => res.send(status)).catch(e => res.sendStatus(404).send(e));;
+    }
+    findAllFollowersForUser = (req: Request, res: Response) => {
+        UserController.userDao.findAllFollowersForUser(req.params.uid)
+        .then(followers => res.json(followers)).catch(e => res.sendStatus(404).send(e));;
+    }
+    findAllFolloweesForUser = (req: Request, res: Response) => {
+        UserController.userDao.findAllFolloweesForUser(req.params.uid)
+        .then(followees => res.json(followees)).catch(e => res.sendStatus(404).send(e));
+    }
+    doesUserFollowAnotherUser = (req: Request, res: Response) => {
+        UserController.userDao.doesUserfollowAnotherUser(req.params.followerId, req.params.followeeId)
+        .then(doesUserFollow => doesUserFollow ? res.sendStatus(200) : res.sendStatus(404));
+    }
+    deleteAllFolloweesForUser = (req: Request, res: Response) => {
+        UserController.userDao.deleteAllFolloweesForUser(req.params.uid)
+        .then(status => res.send(status));
     }
 };

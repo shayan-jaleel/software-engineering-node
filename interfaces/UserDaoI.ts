@@ -12,4 +12,10 @@ export default interface UserDaoI {
    deleteBookmarkForUser(uid: string, tid: string) : Promise<any>;
    deleteAllBookmarksForUser(uid: string) : Promise<any>;
    hasUserBookmarkedTuit(uid: string, tid: string) : Promise<any>;
+   userFollowsAnotherUser(followerId: string, followeeId: string) : Promise<any>;
+   userUnfollowsAnotherUser(followerId: string, followeeId: string) : Promise<any>;
+   findAllFollowersForUser(uid: string) : Promise<any>;
+   findAllFolloweesForUser(uid: string) : Promise<any>;
+   doesUserfollowAnotherUser(followerId: string, followeeId: string) : Promise<any>;
+   deleteAllFolloweesForUser(uid: string) : Promise<any>;
 }

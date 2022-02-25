@@ -73,4 +73,83 @@ export default class UserDao implements UserDaoI {
         }
         return hasBookmarked;
     }
+    async userFollowsAnotherUser(followerId: string, followeeId: string): Promise<any> {
+        const follower: User | null = await UserModel.findById(followerId);
+        const followee: User | null = await UserModel.findById(followeeId);
+        if(!follower || !followee) {
+            throw new Error("Invalid Users");
+        }
+        if(!follower.followees) {
+            follower.followees = [];
+        }
+        if(!followee.followers) {
+            followee.followers = [];
+        }
+        follower.followees.push(followeeId);
+        followee.followers.push(followerId);
+        await UserModel.updateOne({_id: followerId}, {$set: follower});
+        return UserModel.updateOne({_id: followeeId}, {$set: followee});
+    }
+    async userUnfollowsAnotherUser(followerId: string, followeeId: string): Promise<any> {
+        const follower: User | null = await UserModel.findById(followerId);
+        const followee: User | null = await UserModel.findById(followeeId);
+        if(!follower || !followee) {
+            throw new Error("Invalid Users!");
+        }
+        if(!follower.followees) {
+            follower.followees = [];
+        }
+        if(!followee.followers) {
+            followee.followers = [];
+        }
+        const followeeIndexForFollower:number = follower.followees.findIndex(id => id === followeeId);
+        const followerIndexForFollowee:number = followee.followers.findIndex(id => id === followerId);
+        followee.followers.splice(followerIndexForFollowee, 1);
+        follower.followees.splice(followeeIndexForFollower, 1);
+        await UserModel.updateOne({_id: followerId}, {$set: follower});
+        return UserModel.updateOne({_id: followeeId}, {$set: followee});
+    }
+    async findAllFollowersForUser(uid: string): Promise<any[]> {
+        const user: User | null = await UserModel.findById(uid).populate("followers").exec();
+        if(!user) {
+            throw new Error("User not found!");
+        }
+        return user.followers;
+    }
+    async findAllFolloweesForUser(uid: string): Promise<any[]> {
+        const user: User | null = await UserModel.findById(uid).populate("followees").exec();
+        if(!user) {
+            throw new Error("User not found!");
+        }
+        return user.followees;
+    }
+    async doesUserfollowAnotherUser(followerId: string, followeeId: string): Promise<any> {
+        const user: User | null = await UserModel.findById(followerId);
+        // if(!user) {
+        //     throw new Error("User not found!");
+        // }
+        if(user && user.followees && user.followees.includes(followeeId))  {
+            return true;
+        }
+        return false;
+    }
+
+    async deleteAllFolloweesForUser(uid: string): Promise<any> {
+        const user: User | null = await UserModel.findById(uid);
+        if(!user || !user.followees) {
+            return;
+        }
+        user.followees.forEach(async curUid => {
+            const curUser: User|null = await UserModel.findById(curUid);
+            if(!curUser || !curUser.followers) {
+                return;
+            }
+            const index:number = curUser.followers.findIndex(id => id === uid);
+            // console.log("found index " + index);
+            curUser.followers.splice(index, 1);
+            await UserModel.updateOne({_id: curUid}, {$set: curUser});
+        })
+        user.followees = [];
+        return UserModel.updateOne({_id: uid}, {$set : user});
+    }
 }
