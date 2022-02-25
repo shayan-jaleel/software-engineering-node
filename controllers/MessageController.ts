@@ -17,7 +17,7 @@ export default class MessageController implements MessageControllerI{
             app.post("/api/users/:senderId/sentMessages/:receiverId", MessageController.messageController.sendMessageBetweenUsers);
             app.delete("/api/messages/:mid", MessageController.messageController.deleteMessage);
             app.put("/api/messages/:mid", MessageController.messageController.updateMessage);
-            app.delete("/api/users/:uid", MessageController.messageController.deleteAllMessagesForUser);
+            app.delete("/api/users/:uid/messages", MessageController.messageController.deleteAllMessagesForUser);
         }
         return MessageController.messageController;
     }
