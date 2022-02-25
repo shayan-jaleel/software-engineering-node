@@ -9,14 +9,14 @@ import TuitDao from './daos/TuitDao';
 import LikeController from './controllers/LikeController';
 import MessageController from './controllers/MessageController';
 
-
+require('dotenv').config()
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 if(process.env.IS_HEROKU != "true") {
-    mongoose.connect('mongodb://localhost:27017/tuiter', {useNewUrlParser: true, useUnifiedTopology: true});
+    mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
     const userController = UserController.getInstance(app);
     const tuitController = TuitController.getInstance(app);
     const likeController = LikeController.getInstance(app);
