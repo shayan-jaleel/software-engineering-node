@@ -1,6 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 import UserModel from "../users/UserModel";
 
+/**
+ * @file creates and exports message schema
+ */
 const MessageSchema = new mongoose.Schema({
     message: { type: String, required: true },
     from: {

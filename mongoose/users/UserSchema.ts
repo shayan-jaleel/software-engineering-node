@@ -1,4 +1,8 @@
 import mongoose, { Schema } from "mongoose";
+
+/**
+ * @file creates and exports users schema
+ */
 const UserSchema = new mongoose.Schema({
   //  _id: String,
    username: {type: String, required: true},

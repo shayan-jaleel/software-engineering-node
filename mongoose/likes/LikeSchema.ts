@@ -1,6 +1,8 @@
 import mongoose, {Schema} from "mongoose";
 import Like from "../../models/likes/Like";
-
+/**
+ * @file creates and exports like schema
+ */
 const LikeSchema = new mongoose.Schema<Like>({
     tuit: {type: Schema.Types.ObjectId, ref: "TuitModel"},
     likedBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
