@@ -17,25 +17,70 @@ export default class UserDao implements UserDaoI {
     }
 
     private constructor() { }
+
+    /**
+     * Uses UserModel to retrieve all user documents from users collection
+     * @returns Promise To be notified when the users are retrieved from
+     * database
+     */
     async findAllUsers(): Promise<User[]> {
         return await UserModel.find();
     }
+
+    /**
+     * Uses UserModel to retrieve single user document from users collection
+     * @param {string} uid User's primary key
+     * @returns Promise To be notified when user is retrieved from the database
+     */
     async findUserById(uid: string): Promise<any> {
         return await UserModel.findById(uid);
     }
+    
+    /**
+     * Inserts user instance into the database
+     * @param {User} user Instance to be inserted into the database
+     * @returns Promise To be notified when user is inserted into the database
+     */
     async createUser(user: User): Promise<User> {
         return await UserModel.create(user);
     }
+
+    /**
+     * Removes user from the database.
+     * @param {string} uid Primary key of user to be removed
+     * @returns Promise To be notified when user is removed from the database
+     */
     async deleteUser(uid: string): Promise<any> {
         return await UserModel.deleteOne({ _id: uid });
     }
+    
+    /**
+     * Updates user in the database.
+     * @param {string} uid Primary key of user to be removed
+     * @param {User} user updated User instance
+     * @returns Promise To be notified when user is updated in the database
+     */
     async updateUser(uid: string, user: User): Promise<any> {
         return await UserModel.updateOne({ _id: uid }, { $set: user });
     }
+    
+    
+    /**
+     * Finds bookmark for user in the db
+     * @param {string} uid Primary key of user to be removed
+     * @returns Promise To be notified when bookmarks are found in the database
+     */
     async findBookmarksForUser(uid: string): Promise<any> {
         const user: User | null = await UserModel.findById(uid).populate("bookmarks").exec();
         return (user === null) ? null : user.bookmarks;
-    }
+    }    
+
+    /**
+     * Creates bookmark for user in the db
+     * @param {string} uid Primary key of user to be removed
+     * @param {string} tid tuit id
+     * @returns Promise To be notified when bookmark created in the database
+     */
     async createBookmarkForUser(uid: string, tid: string): Promise<any> {
         const user: User | null = await UserModel.findById(uid);
         //    console.log(JSON.stringify(user))
@@ -52,6 +97,13 @@ export default class UserDao implements UserDaoI {
         await UserModel.updateOne({ _id: uid }, { $set: user });
         return await UserModel.findById(uid).populate("bookmarks").exec();
     }
+    
+    /**
+     * Removes bookmark for user in the db
+     * @param {string} uid Primary key of user to be removed
+     * @param {string} tid tuit id
+     * @returns Promise To be notified when bookmark deleted in the database
+     */
     async deleteBookmarkForUser(uid: string, tid: string): Promise<any> {
         const user: User | null = await UserModel.findById(uid);
         if (!user || !user.bookmarks) return null;
@@ -59,12 +111,25 @@ export default class UserDao implements UserDaoI {
         user.bookmarks = newBookmarks;
         return await UserModel.updateOne({ _id: uid }, { $set: user });
     }
+    
+    /**
+     * Removes all bookmarks for user in the db
+     * @param {string} uid Primary key of user to be removed
+     * @returns Promise To be notified when bookmarks removed in the database
+     */
     async deleteAllBookmarksForUser(uid: string): Promise<any> {
         const user: User | null = await UserModel.findById(uid);
         if(!user || !user.bookmarks) return null;
         user.bookmarks = [];
         return UserModel.updateOne({_id: uid}, {$set: user});
     }
+    
+    /**
+     * Checks if user has bookmarked a tuit
+     * @param {string} uid Primary key of user
+     * @param {string} tid tuit id
+     * @returns Promise To be notified about the result
+     */
     async hasUserBookmarkedTuit(uid: string, tid: string): Promise<any> {
         const user : User | null = await UserModel.findById(uid);
         let hasBookmarked: boolean = false;
@@ -73,6 +138,13 @@ export default class UserDao implements UserDaoI {
         }
         return hasBookmarked;
     }
+    
+    /**
+     * Creates a following
+     * @param {string} followerId Primary key of user
+     * @param {string} followeeId tuit id
+     * @returns Promise To be notified about the result
+     */
     async userFollowsAnotherUser(followerId: string, followeeId: string): Promise<any> {
         const follower: User | null = await UserModel.findById(followerId);
         const followee: User | null = await UserModel.findById(followeeId);
@@ -90,6 +162,12 @@ export default class UserDao implements UserDaoI {
         await UserModel.updateOne({_id: followerId}, {$set: follower});
         return UserModel.updateOne({_id: followeeId}, {$set: followee});
     }
+    /**
+     * Deletes a following
+     * @param {string} followerId Primary key of user
+     * @param {string} followeeId tuit id
+     * @returns Promise To be notified about the result
+     */
     async userUnfollowsAnotherUser(followerId: string, followeeId: string): Promise<any> {
         const follower: User | null = await UserModel.findById(followerId);
         const followee: User | null = await UserModel.findById(followeeId);
@@ -109,6 +187,11 @@ export default class UserDao implements UserDaoI {
         await UserModel.updateOne({_id: followerId}, {$set: follower});
         return UserModel.updateOne({_id: followeeId}, {$set: followee});
     }
+    /**
+     * Returns all followers for user
+     * @param {string} uid Primary key of user
+     * @returns Promise To be notified about the followers
+     */
     async findAllFollowersForUser(uid: string): Promise<any[]> {
         const user: User | null = await UserModel.findById(uid).populate("followers").exec();
         if(!user) {
@@ -116,6 +199,11 @@ export default class UserDao implements UserDaoI {
         }
         return user.followers;
     }
+    /**
+     * Returns all followees for user
+     * @param {string} uid Primary key of user
+     * @returns Promise To be notified about the followees
+     */
     async findAllFolloweesForUser(uid: string): Promise<any[]> {
         const user: User | null = await UserModel.findById(uid).populate("followees").exec();
         if(!user) {
@@ -123,6 +211,13 @@ export default class UserDao implements UserDaoI {
         }
         return user.followees;
     }
+    
+    /**
+     * Checks if user follows another user
+     * @param {string} followerId Primary key of user
+     * @param {string} followeeId Primary key of user
+     * @returns Promise to be notified about the result
+     */
     async doesUserfollowAnotherUser(followerId: string, followeeId: string): Promise<any> {
         const user: User | null = await UserModel.findById(followerId);
         // if(!user) {
@@ -133,7 +228,11 @@ export default class UserDao implements UserDaoI {
         }
         return false;
     }
-
+    /**
+     * Delete followees for user
+     * @param {string} uid Primary key of user
+     * @returns Promise to be notified about the result
+     */
     async deleteAllFolloweesForUser(uid: string): Promise<any> {
         const user: User | null = await UserModel.findById(uid);
         if(!user || !user.followees) {

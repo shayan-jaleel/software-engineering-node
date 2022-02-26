@@ -30,7 +30,7 @@
       * Creates singleton controller instance
       * @param {Express} app Express instance to declare the RESTful Web service
       * API
-      * @return TuitController
+      * @return {TuitController} TuitController
       */
      public static getInstance = (app: Express): TuitController => {
          if(TuitController.tuitController === null) {
