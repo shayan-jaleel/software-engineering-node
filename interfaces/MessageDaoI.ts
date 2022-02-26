@@ -1,7 +1,8 @@
-import Message from "../models/messages/Message";
 /**
  * @file Declares API for Message related data access object methods
  */
+import Message from "../models/messages/Message";
+
 export default interface MessageDaoI {
     /**
      * Uses MessageModel to retrieve messages sent by user

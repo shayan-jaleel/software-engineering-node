@@ -1,7 +1,7 @@
-import Tuit from "../models/tuits/Tuit";
 /**
  * @file Declares API for Tuits related data access object methods
  */
+import Tuit from "../models/tuits/Tuit";
  export default interface TuitDaoI {     
   /**
    * Uses TuitModel to retrieve all tuits

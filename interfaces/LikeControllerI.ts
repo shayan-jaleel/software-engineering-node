@@ -1,8 +1,9 @@
-import {Request, Response} from "express";
-
 /**
  * @file Declares API for Likes
  */
+import {Request, Response} from "express";
+
+
 export default interface LikeControllerI {
     /**
       * Retrieves all users that liked a tuit from the database

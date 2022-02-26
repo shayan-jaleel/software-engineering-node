@@ -1,8 +1,9 @@
-import Tuit from "../models/tuits/Tuit";
-import User from "../models/users/User";
 /**
  * @file Declares API for Users related data access object methods
  */
+import Tuit from "../models/tuits/Tuit";
+import User from "../models/users/User";
+
 export default interface UserDaoI {
 
    /**

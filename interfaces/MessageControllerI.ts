@@ -1,7 +1,8 @@
-import {Request, Response} from "express";
 /**
  * @file Declares API for Messages
  */
+import {Request, Response} from "express";
+
 export default interface MessageControllerI {   
      /**
     * Retrieves all messages from the database sent by a particular user.

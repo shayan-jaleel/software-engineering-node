@@ -8,7 +8,6 @@ import User from "../users/User";
   * @property {User} to User receiver
   * @property {Date} sentOn date
   */
- 
 export default interface Message {
     _id: mongoose.Schema.Types.ObjectId;
     message: String;

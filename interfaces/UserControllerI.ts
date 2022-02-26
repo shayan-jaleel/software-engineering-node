@@ -1,7 +1,8 @@
-import {Request, Response} from "express";
 /**
  * @file Declares API for Users
  */
+import {Request, Response} from "express";
+
 export default interface UserControllerI { 
    /**
     * Retrieves all users from the database and returns an array of users.

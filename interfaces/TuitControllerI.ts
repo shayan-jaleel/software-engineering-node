@@ -1,7 +1,8 @@
-import {Request, Response} from "express";
 /**
  * @file Declares API for Tuits
  */
+import {Request, Response} from "express";
+
 export default interface TuitControllerI { 
     /**
      * Retrieves all tuits from the database and returns an array of tuits.

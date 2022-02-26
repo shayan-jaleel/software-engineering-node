@@ -1,4 +1,3 @@
- 
  /**
   * @typedef AccountType Represents type of account (Personal, Academic, Professional)
   */
