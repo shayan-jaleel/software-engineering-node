@@ -23,12 +23,14 @@ import TuitController from './controllers/TuitController';
 import TuitDao from './daos/TuitDao';
 import LikeController from './controllers/LikeController';
 import MessageController from './controllers/MessageController';
+var cors = require('cors')
 
 require('dotenv').config()
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(cors())
 
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 const userController = UserController.getInstance(app);
