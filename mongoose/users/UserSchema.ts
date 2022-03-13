@@ -1,4 +1,8 @@
-import mongoose from "mongoose";
+/**
+ * @file creates and exports users schema
+ */
+import mongoose, { Schema } from "mongoose";
+
 const UserSchema = new mongoose.Schema({
   //  _id: String,
    username: {type: String, required: true},
@@ -16,6 +20,18 @@ const UserSchema = new mongoose.Schema({
    location: {
      latitude: {type: Number, default: 0.0},
      longitude: {type: Number, default: 0.0},
+   },
+   bookmarks: {
+     type: Schema.Types.Array,
+     ref: 'TuitModel'
+   },
+   followers: {
+     type: Schema.Types.Array,
+     ref: 'UserModel'
+   },
+   followees: {
+     type: Schema.Types.Array,
+     ref: 'UserModel'
    }
 }, {collection: 'users'});
 export default UserSchema;

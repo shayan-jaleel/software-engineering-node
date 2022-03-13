@@ -2,3 +2,5 @@
 node_modules
 build
 out
+#ignore .env files
+.env
