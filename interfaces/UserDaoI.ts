@@ -43,6 +43,12 @@ export default interface UserDaoI {
      */
    deleteUser(uid: string): Promise<any>;    
    /**
+    * Remove user by username in the db.
+    * @param {string} username for the user to be deleted
+    * @returns Promise describing deletion status 
+    */
+   deleteUserByUsername(username: string) : Promise<any>;
+   /**
     * Finds bookmark for user in the db
     * @param {string} uid Primary key of user to be removed
     * @returns Promise To be notified when bookmarks are found in the database

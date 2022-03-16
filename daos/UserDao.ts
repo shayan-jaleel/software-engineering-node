@@ -73,6 +73,14 @@ export default class UserDao implements UserDaoI {
         return await UserModel.updateOne({ _id: uid }, { $set: user });
     }
     
+   /**
+    * Remove user by username in the db.
+    * @param {string} username for the user to be removed.
+    * @returns Status of delete request
+    */
+   async deleteUserByUsername(uname: string) : Promise<any> {
+       return await UserModel.deleteOne({username: uname});
+   }
     
     /**
      * Finds bookmark for user in the db
