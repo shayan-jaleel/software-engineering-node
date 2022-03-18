@@ -46,7 +46,9 @@ export default class UserController implements UserControllerI {
             app.delete("/api/users/:uid",
                 UserController.userController.deleteUser);
             app.get("/api/users/username/:username/delete",
-                UserController.userController.deleteUserByUsername);
+                UserController.userController.deleteUserByUsername);  
+            app.post("/api/login",
+                UserController.userController.login);
             app.get("/api/users/:uid/bookmarks",
                 UserController.userController.findBookmarksForUser);
             app.post("/api/users/:uid/bookmarks/:tid",
@@ -141,6 +143,14 @@ export default class UserController implements UserControllerI {
     deleteUserByUsername = (req: Request, res: Response) =>
         UserController.userDao.deleteUserByUsername(req.params.username)
             .then((status) => res.send(status));
+
+    
+    login = (req: Request, res: Response) =>
+    UserController.userDao
+        .findUserByCredentials(req.body.username, req.body.password)
+        .then(user => {
+            res.json(user)
+        });
 
     /**
      * Find bookmarks for a specific user
