@@ -1,5 +1,6 @@
 import User from "../users/User";
 import mongoose from "mongoose";
+import Stats from "./Stats";
  
  /**
   * @typedef Tuit Represents tuit by user
@@ -12,4 +13,9 @@ export default interface Tuit {
    tuit: string;
    postedOn?: Date;
    postedBy: User;
+   image?: String;
+   youtube?: String;
+   avatarLogo?: String;
+   imageOverlay?: String;
+   stats: Stats;
 }

@@ -23,14 +23,35 @@ import TuitController from './controllers/TuitController';
 import TuitDao from './daos/TuitDao';
 import LikeController from './controllers/LikeController';
 import MessageController from './controllers/MessageController';
-var cors = require('cors')
+import AuthenticationController from './controllers/AuthenticationController';
+const cors = require("cors");
+const session = require("express-session");
 
 require('dotenv').config()
 
 const app = express();
+app.use(cors({
+    credentials: true,
+    origin: process.env.CORS_ORIGIN
+}));
+let sess = {
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
+    }
+}
+
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+}
+
+app.use(session(sess))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cors())
+// app.use(cors())
 
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 const userController = UserController.getInstance(app);
@@ -38,6 +59,8 @@ const tuitController = TuitController.getInstance(app);
 const likeController = LikeController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 
+// SessionController(app);
+AuthenticationController(app);
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Hello World!'));
 
