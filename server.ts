@@ -24,6 +24,7 @@ import TuitDao from './daos/TuitDao';
 import LikeController from './controllers/LikeController';
 import MessageController from './controllers/MessageController';
 import AuthenticationController from './controllers/AuthenticationController';
+import DislikeController from './controllers/DislikeController';
 const cors = require("cors");
 const session = require("express-session");
 
@@ -57,6 +58,7 @@ mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopo
 const userController = UserController.getInstance(app);
 const tuitController = TuitController.getInstance(app);
 const likeController = LikeController.getInstance(app);
+const dislikeController = DislikeController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 
 // SessionController(app);
