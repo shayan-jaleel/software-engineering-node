@@ -44,9 +44,14 @@ import DislikeModel from "../mongoose/dislike/DislikeModel";
       */
      findAllTuitsDislikedByUser = async (uid: string): Promise<Dislike[]> =>
      DislikeModel
-             .find({dislikedBy: uid})
-             .populate("tuit")
-             .exec();
+         .find({dislikedBy: uid})
+         .populate({
+             path: "tuit",
+             populate: {
+                 path: "postedBy"
+             }
+         })
+         .exec();
      /**
       * Uses DislikeModel to record disliking of a tuit
       * @param {string} uid User's primary key
